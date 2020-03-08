@@ -10,10 +10,9 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-import enttities.Apple;
-import enttities.BodyPart;
+import enttities.*;
 
-public class Screen extends JPanel implements Runnable{
+public class Screen extends JPanel implements Runnable, Tick, KeyListener{
 	
 	public static final int WIDTH = 800, HEIGHT = 800;
 	private Thread thread;
@@ -36,14 +35,11 @@ public class Screen extends JPanel implements Runnable{
 	
 	private int ticks = 0;
 	
-	private Key key;
-	
 	//creating the constructor
 	public Screen(){
 		//to use pressed keys
 		setFocusable(true);
-		key = new Key();
-		addKeyListener(key);
+		this.addKeyListener(this);
 		
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		
@@ -93,7 +89,7 @@ public class Screen extends JPanel implements Runnable{
 		
 		ticks++;
 		
-		if(ticks > 250000){
+		if(ticks > 1000000){
 			if(right) xCoor++;
 			if(left) xCoor--;
 			if(up) yCoor--;
@@ -120,13 +116,13 @@ public class Screen extends JPanel implements Runnable{
 		
 		g.setColor(Color.BLACK);
 		//draw the grid
-		for(int i = 0; i < WIDTH/10; i++){
-			g.drawLine(i * 10, 0, i * 10, HEIGHT);
-		}
+		// for(int i = 0; i < WIDTH/10; i++){
+		// 	g.drawLine(i * 10, 0, i * 10, HEIGHT);
+		// }
 		
-		for(int i = 0; i < HEIGHT/10; i++){
-			g.drawLine(0, i * 10, WIDTH, i * 10);
-		}
+		// for(int i = 0; i < HEIGHT/10; i++){
+		// 	g.drawLine(0, i * 10, WIDTH, i * 10);
+		// }
 		
 		//draw the arraylist
 		for(int i = 0; i < snake.size(); i++){
@@ -160,50 +156,47 @@ public class Screen extends JPanel implements Runnable{
 			repaint();
 		}
 	}
-	
-	private class Key implements KeyListener{
 
-		@Override
-		public void keyPressed(KeyEvent e) {
-			int key = e.getKeyCode();
-			
-			if(key == KeyEvent.VK_RIGHT && !left){
-				up = false;
-				down = false;
-				right = true;
-			}
-			
-			if(key == KeyEvent.VK_LEFT && !right){
-				up = false;
-				down = false;
-				left = true;
-			}
-			
-			if(key == KeyEvent.VK_UP && !down){
-				left = false;
-				right = false;
-				up = true;
-			}
-			
-			if(key == KeyEvent.VK_DOWN && !up){
-				left = false;
-				right = false;
-				down = true;
-			}
-			
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+		
+		if(key == KeyEvent.VK_RIGHT && !left){
+			up = false;
+			down = false;
+			right = true;
 		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
+		
+		if(key == KeyEvent.VK_LEFT && !right){
+			up = false;
+			down = false;
+			left = true;
 		}
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
+		
+		if(key == KeyEvent.VK_UP && !down){
+			left = false;
+			right = false;
+			up = true;
+		}
+		
+		if(key == KeyEvent.VK_DOWN && !up){
+			left = false;
+			right = false;
+			down = true;
 		}
 		
 	}
+
 }

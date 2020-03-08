@@ -3,7 +3,7 @@ package enttities;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class BodyPart {
+public class BodyPart implements Tick {
 	
 	private int xCoor, yCoor, width, height;
 	
